@@ -12,7 +12,8 @@ black = (0, 0, 0)
 pink = (255, 200, 200)
 
 # int
-blockSize = 41  # size of a block in grid + 1
+blockSize = 61  # size of a block in grid + 1
+perspective = 0.8  # 30% inclination
 
 # str
 ver = '0.0.9'
@@ -73,8 +74,8 @@ class object2d(object):
             self.z = 1
             self.inclined = False
 
-    def draw(self, window):
-        pygame.draw.lines(window, white, True,
+    def draw(self, clr, window):
+        pygame.draw.lines(window, clr, True,
                           [(self.tlX, self.tlY), (self.trX, self.trY), (self.brX, self.brY), (self.blX, self.blY)])
 
 
@@ -85,21 +86,32 @@ pygame.display.set_caption("Tower defense v." + ver)
 field = object2d(int(0.05 * wind_width), int(0.1 * wind_height), int(0.9 * wind_width), int(0.8 * wind_height))
 
 
-def drawGrid(z):
-    for y in range(field.y, field.height, blockSize):
-        for x in range(field.x, field.width, blockSize):
-            cell = object2d(x, y, blockSize - 1, blockSize - 1)
-            for i in range(-5, 5, 1):  # draw 10 layers
-                cell.level = i * blockSize
-                cell.undo_inclination()
-                cell.do_inclination(z)
-                cell.draw(screen)
-            cell.level = 0
+# def drawGrid(z):
+#     for y in range(field.y, field.height, blockSize):
+#         for x in range(field.x, field.width, blockSize):
+#             cell = object2d(x, y, blockSize - 1, blockSize - 1)
+#             for i in range(-5, 5, 1):  # draw 10 layers
+#                 cell.level = i * blockSize
+#                 cell.undo_inclination()
+#                 cell.do_inclination(z)
+#                 cell.draw(screen)
+#             cell.level = 0
+def drawGrid():
+    for y in range(field.y, field.height + blockSize - 1, blockSize):
+        for x in range(field.x, field.width + blockSize - 1, blockSize):
+            cellbot = object2d(x, y, blockSize - 1, blockSize - 1)
+            celltop = object2d(x, y, blockSize - 1, blockSize - 1)
+            cellbot.level = 0
+            celltop.level = 2 * blockSize
+            celltop.do_inclination(perspective)
+            cellbot.do_inclination(perspective)
+            cellbot.draw(white, screen)
+            celltop.draw(red, screen)
 
 
-def redrawGameWindow(z):
+def redrawGameWindow():
     screen.fill(darkBlue)
-    drawGrid(z)
+    drawGrid()
     pygame.display.update()
 
 
@@ -110,21 +122,11 @@ a = 0
 b = 0
 c = 0
 while run:
-    # fps.tick(30)
-    # b += (-1) ** c
-    # if b >=200 or b <= -200:
-    #     c += 1
-    # redrawGameWindow(abs(b/100))
-    # print(b)
-    fps.tick(30)
-    b += 1
-    if b >= 200:
-        b = 0
-    redrawGameWindow(abs(b / 100))  # for rotation
+    fps.tick(60)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
 
-    # redrawGameWindow()
+    redrawGameWindow()
     # for real game
