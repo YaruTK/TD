@@ -19,7 +19,7 @@ blockSize = 127  # size of a block in grid + 1
 perspective = 0.87  # 30% inclination
 
 # str
-ver = '0.0.9'
+ver = '0.1.7'
 
 wind_width = 1200
 wind_height = 800
