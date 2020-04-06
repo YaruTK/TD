@@ -1,7 +1,11 @@
-/resources/
+/resources
 background.jpg
 test.png
 test1.png
 transparent.png
-/.idea/
-/venv/
+/.idea
+/venv
+yes.exe.stackdump
+*.png
+*.jpg
+*.stackdump
