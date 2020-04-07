@@ -30,19 +30,17 @@ def distance(pt1, pt2):
     return dist
 
 
-def comp(want, have):
+def comp(want):
     border = ((min(want[0][0], want[3][0]), min(want[0][1], want[1][1])),
               (max(want[1][0], want[2][0]), min(want[0][1], want[1][1])),
               (max(want[1][0], want[2][0]), max(want[2][1], want[3][1])),
               (min(want[0][0], want[3][0]), max(want[2][1], want[3][1])))
-
     return border
 
 
 def transform(image, dest):
     dst = np.array(dest, dtype="float32")
-    orig = coord(image)
-    border = comp(dst, orig)
+    border = comp(dst)
 
     width1 = distance(border[0], border[1])
     width2 = distance(border[2], border[3])
@@ -71,6 +69,21 @@ def fourChannels(img):
         new_img = cv2.cvtColor(img, cv2.COLOR_BGR2BGRA)
         return new_img
     return img
+
+
+def make_darker(img):
+    was = np.double(img)
+    now = was - 3
+    darker = np.uint8(now)
+    return darker
+
+
+def adjust_gamma(image, gamma):
+   invGamma = 1.0 / gamma
+   table = np.array([((i / 255.0) ** invGamma) * 255
+      for i in np.arange(0, 256)]).astype("uint8")
+   return cv2.LUT(image, table)
+
 
 
 

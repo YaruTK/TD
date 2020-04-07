@@ -1,8 +1,4 @@
-/resources
-background.jpg
-test.png
-test1.png
-transparent.png
+/resources/textures
 /.idea
 /venv
 yes.exe.stackdump
