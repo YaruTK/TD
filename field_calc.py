@@ -22,11 +22,6 @@ perspective = 0.87  # 30% inclination
 wind_width, wind_height = 1200, 800
 
 
-class IterRegistry(type):
-    def __iter__(cls):
-        return iter(cls._registry)
-
-
 class object2d(object):
     def __init__(self, x, y, width, height):
         self.level = 0  # level of a layer for future pseudo 3d
@@ -79,7 +74,6 @@ class object2d(object):
 
 
 class textures(object):
-    __metaclass__ = IterRegistry
     _reg = []
 
     def __init__(self, name):

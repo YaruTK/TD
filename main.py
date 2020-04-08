@@ -67,7 +67,6 @@ def draw_tiles(array):
 def redrawGameWindow():
     screen.fill(darkBlue)
     screen.blit(pygame.image.load('resources/background.jpg'), (0, 0))
-    # drawGrid(plotbot, white)
     draw_tiles(fp.top_tiles)
     drawGrid(fp.plottop, black)
     pygame.display.update()
